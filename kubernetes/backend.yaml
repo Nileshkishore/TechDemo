@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: stock-monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: nileshkishore/mystock-backend:0.1
+        env:
+        - name: DEBUG
+          value: "1"
+        - name: DB_HOST
+          value: "db"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "first_database"
+        - name: DB_USER
+          value: "postgres_user"
+        - name: DB_PASSWORD
+          value: "1234"
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: stock-monitoring
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+  selector:
+    app: backend

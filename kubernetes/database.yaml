@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  namespace: stock-monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - name: db
+        image: postgres:13
+        env:
+        - name: POSTGRES_DB
+          value: "first_database"
+        - name: POSTGRES_USER
+          value: "postgres_user"
+        - name: POSTGRES_PASSWORD
+          value: "1234"
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-storage
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  namespace: stock-monitoring
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+  selector:
+    app: db
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: stock-monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
