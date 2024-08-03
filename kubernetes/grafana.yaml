@@ -52,7 +52,7 @@ data:
     enabled = true
     host = smtp.gmail.com:587
     user = nilesh.k@sigmoidanalytics.com
-    password = nglalskcmnbgpbni
+    password = 
     skip_verify = true
     from_address = nilesh.k@sigmoidanalytics.com
     from_name = Grafana
