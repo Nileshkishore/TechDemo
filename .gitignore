@@ -1,2 +1,2 @@
-/grafana
-/kubernetes/grafana.yaml
+./grafana
+./kubernetes/grafana.yaml
