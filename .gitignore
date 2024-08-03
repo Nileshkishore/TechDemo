@@ -1,2 +1,3 @@
-./grafana
-./kubernetes/grafana.yaml
+# Grafana configuration
+grafana/
+kubernetes/grafana.yaml
